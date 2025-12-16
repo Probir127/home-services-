@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Kontakt - {{ site_config.site_name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 700px;">
+        <div class="text-center mb-lg">
+            <h1 class="text-gradient">Kontakta oss</h1>
+            <p style="color: var(--color-text-light); font-size: 1.125rem;">
+                Har du frågor? Vi hjälper dig gärna!
+            </p>
+        </div>
+
+        <div class="card">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label" for="id_name">Namn *</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="id_email">E-post *</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="id_phone">Telefon</label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="id_subject">Ämne *</label>
+                    {{ form.subject }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="id_message">Meddelande *</label>
+                    {{ form.message }}
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.125rem;">
+                    <i class="fa-solid fa-envelope"></i>
+                    Skicka meddelande
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

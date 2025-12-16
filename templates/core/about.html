@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Om oss - {{ site_config.site_name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="text-center mb-xl">
+            <h1 class="text-gradient">Om GRB Servicebyrå AB</h1>
+        </div>
+
+        <div class="hero-content mb-xl">
+            <div>
+                <h2 class="mb-md">Vår historia</h2>
+                <p
+                    style="color: var(--color-text-light); font-size: 1.125rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                    GRB Servicebyrå AB grundades 2017 med en tydlig vision - att bli den ledande leverantören av
+                    lokalvårdstjänster i Stockholmsområdet. Sedan starten har vi levererat professionella städtjänster
+                    med högsta kvalitet till både privatpersoner och företag.
+                </p>
+                <p style="color: var(--color-text-light); font-size: 1.125rem; line-height: 1.8;">
+                    Vi utför städning i alla orter i Stockholm län och är stolta över att kunna erbjuda våra kunder
+                    flexibla, pålitliga och prisvärdatjänster som överträffar förväntningarna.
+                </p>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop"
+                    alt="Vårt team">
+            </div>
+        </div>
+
+        <div class="grid grid-3 mb-xl">
+            <div class="card text-center">
+                <div class="card-icon" style="margin: 0 auto 1.5rem;">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <h3 class="card-title">Erfarna proffs</h3>
+                <p class="card-description">Vårt team består av välutbildade och erfarna städare som tar stolthet i sitt
+                    arbete.</p>
+            </div>
+
+            <div class="card text-center">
+                <div class="card-icon" style="margin: 0 auto 1.5rem;">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="card-title">Försäkrade</h3>
+                <p class="card-description">Alla våra tjänster är fullt försäkrade för din trygghet.</p>
+            </div>
+
+            <div class="card text-center">
+                <div class="card-icon" style="margin: 0 auto 1.5rem;">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <h3 class="card-title">Miljövänligt</h3>
+                <p class="card-description">Vi använder miljövänliga produkter som är säkra för både dig och miljön.</p>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h2 class="mb-md">Redo att komma igång?</h2>
+            <a href="{% url 'contact:request_quote' %}" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-file-invoice"></i>
+                Begär offert
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

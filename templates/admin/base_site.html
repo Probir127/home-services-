@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<!-- Google Analytics 4 for Admin -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', {
+        'user_id': '{{ user.username }}',
+        'anonymize_ip': true
+    });
+
+    // Track admin actions
+    gtag('event', 'admin_page_view', {
+        'page_path': window.location.pathname,
+        'user_role': '{{ user.is_superuser|yesno:"superuser,staff" }}'
+    });
+</script>
+{% endblock %}

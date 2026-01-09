@@ -18,10 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from grbs_project import export_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('grbs_project.api.urls')),
+    
+    # Export endpoints (staff-only)
+    path('admin/export/analytics/', export_views.export_analytics_csv, name='export_analytics'),
+    path('admin/export/quotes/', export_views.export_quotes_csv, name='export_quotes'),
+    path('admin/export/messages/', export_views.export_messages_csv, name='export_messages'),
+    
     path('', include('core.urls')),
     path('services/', include('services.urls')),
     path('', include('contact.urls')),

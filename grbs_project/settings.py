@@ -58,6 +58,7 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
+    'request',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -72,6 +73,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'request.middleware.RequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -234,4 +236,26 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-success"
     }
 }
+
+
+# Visitor Analytics (django-request)
+REQUEST_IGNORE_PATHS = (
+    r'^admin/',
+    r'^static/',
+    r'^media/',
+    r'^favicon.ico',
+)
+REQUEST_TRAFFIC_MODULES = (
+    'request.traffic.UniqueVisitor',
+    'request.traffic.UniqueVisit',
+    'request.traffic.Hit',
+    'request.traffic.User',
+)
+REQUEST_PLUGINS = (
+    'request.plugins.TrafficInformation',
+    'request.plugins.LatestRequests',
+    'request.plugins.TopPaths',
+    'request.plugins.TopReferrers',
+    'request.plugins.ActiveUsers',
+)
 

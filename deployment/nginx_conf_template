@@ -1,0 +1,36 @@
+server {
+    listen 80;
+    server_name grbs.se www.grbs.se;
+
+    # Favicon and Robots
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    # Static Files
+    location /static/ {
+        root /var/www/home-services;
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    # Media Files (if any)
+    location /media/ {
+        root /var/www/home-services;
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    # Main Proxy to Gunicorn
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/var/www/home-services/home-services.sock;
+        
+        # Security Headers
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-XSS-Protection "1; mode=block";
+        add_header X-Content-Type-Options "nosniff";
+    }
+
+    # Client Upload Size
+    client_max_body_size 20M;
+}

@@ -56,6 +56,7 @@ REST_FRAMEWORK = {
 }
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,7 +131,7 @@ if not os.environ.get('DATABASE_URL'):
 
 DATABASES = {
     'default': dj_database_url.config(
-        conn_max_age=600
+        conn_max_age=0
     )
 }
 
@@ -176,3 +177,61 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Jazzmin Admin Configuration
+JAZZMIN_SETTINGS = {
+    "site_title": "GRB Services Admin",
+    "site_header": "GRB Services",
+    "site_brand": "GRB Servicebyrå",
+    "welcome_sign": "Welcome to GRB Servicebyrå AB",
+    "copyright": "GRB Servicebyrå AB",
+    "search_model": ["services.Service", "contact.QuoteRequest"],
+    "topmenu_links": [
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "View Site", "url": "/"},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "order_with_respect_to": ["contact", "services", "core", "auth"],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "services.Service": "fas fa-broom",
+        "services.PricingPackage": "fas fa-tags",
+        "contact.QuoteRequest": "fas fa-file-invoice-dollar",
+        "contact.ContactMessage": "fas fa-envelope",
+        "core.SiteConfiguration": "fas fa-cogs",
+        "core.HomePage": "fas fa-home",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-warning",
+    "accent": "accent-warning",
+    "navbar": "navbar-white navbar-light",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-warning",
+    "sidebar_nav_small_text": False,
+    "theme": "simplex",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-warning",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
+

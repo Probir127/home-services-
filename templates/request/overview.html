@@ -1,0 +1,416 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    body {
+        background: linear-gradient(135deg, #fef3e2 0%, #ffffff 100%) !important;
+    }
+
+    #content {
+        background: transparent !important;
+        padding: 32px !important;
+    }
+
+    .analytics-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 40px;
+        margin-bottom: 32px;
+        box-shadow: 0 20px 60px rgba(245, 158, 11, 0.15);
+        border: 2px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .analytics-header h1 {
+        font-size: 36px !important;
+        font-weight: 800 !important;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0 0 12px 0 !important;
+    }
+
+    .analytics-header p {
+        color: #6b7280;
+        font-size: 16px;
+        margin: 0 !important;
+    }
+
+    .mega-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .mega-stat {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 32px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(245, 158, 11, 0.12);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s;
+    }
+
+    .mega-stat::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 24px;
+        padding: 2px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        -webkit-mask-composite: xor;
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+
+    .mega-stat:hover::before {
+        opacity: 1;
+    }
+
+    .mega-stat:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 60px rgba(245, 158, 11, 0.25);
+    }
+
+    .mega-stat-icon {
+        font-size: 56px;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        border-radius: 24px;
+        margin: 0 auto 20px;
+        box-shadow: 0 12px 32px rgba(245, 158, 11, 0.4);
+    }
+
+    .mega-stat-value {
+        font-size: 56px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 12px 0;
+        letter-spacing: -2px;
+    }
+
+    .mega-stat-label {
+        color: #6b7280;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+    }
+
+    .charts-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        margin-bottom: 32px;
+    }
+
+    .chart-box {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-box h2 {
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        color: #1f2937 !important;
+        margin: 0 0 28px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+    }
+
+    .chart-box h2::before {
+        content: '📈';
+        font-size: 28px;
+    }
+
+    .chart-box canvas {
+        max-height: 350px !important;
+    }
+
+    .data-table {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 32px;
+    }
+
+    .data-table h2 {
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        color: #1f2937 !important;
+        margin: 0 0 28px 0 !important;
+    }
+
+    .premium-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 12px;
+    }
+
+    .premium-table thead th {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #ffffff;
+        padding: 20px 24px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        font-size: 13px;
+        border: none;
+    }
+
+    .premium-table thead th:first-child {
+        border-radius: 16px 0 0 16px;
+    }
+
+    .premium-table thead th:last-child {
+        border-radius: 0 16px 16px 0;
+    }
+
+    .premium-table tbody tr {
+        background: linear-gradient(135deg, #fef3e2 0%, #fffbf0 100%);
+        transition: all 0.3s;
+    }
+
+    .premium-table tbody tr:hover {
+        background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+        transform: translateX(8px);
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2);
+    }
+
+    .premium-table tbody td {
+        padding: 20px 24px;
+        border: none;
+        color: #1f2937;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .premium-table tbody td:first-child {
+        border-radius: 16px 0 0 16px;
+    }
+
+    .premium-table tbody td:last-child {
+        border-radius: 0 16px 16px 0;
+    }
+
+    .premium-table tbody td a {
+        color: #f59e0b;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .premium-table tbody td a:hover {
+        color: #d97706;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 1200px) {
+        .mega-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .charts-section {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .mega-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-header">
+    <h1>📊 Advanced Analytics Dashboard</h1>
+    <p>Complete visitor insights and traffic analysis for your website</p>
+</div>
+
+<div class="mega-stats">
+    <div class="mega-stat">
+        <div class="mega-stat-icon">👥</div>
+        <div class="mega-stat-value">{{ unique_visitors|default:"0" }}</div>
+        <div class="mega-stat-label">Unique Visitors</div>
+    </div>
+    <div class="mega-stat">
+        <div class="mega-stat-icon">🔥</div>
+        <div class="mega-stat-value">{{ total_hits|default:"0" }}</div>
+        <div class="mega-stat-label">Total Page Views</div>
+    </div>
+    <div class="mega-stat">
+        <div class="mega-stat-icon">🌐</div>
+        <div class="mega-stat-value">{{ unique_visits|default:"0" }}</div>
+        <div class="mega-stat-label">Unique Visits</div>
+    </div>
+    <div class="mega-stat">
+        <div class="mega-stat-icon">⚡</div>
+        <div class="mega-stat-value">{{ avg_per_day|default:"0" }}</div>
+        <div class="mega-stat-label">Avg Per Day</div>
+    </div>
+</div>
+
+<div class="charts-section">
+    <div class="chart-box">
+        <h2>Visitor Trends (Last 30 Days)</h2>
+        <canvas id="trafficChart"></canvas>
+    </div>
+    <div class="chart-box">
+        <h2>Top Referrers</h2>
+        <canvas id="referrersChart"></canvas>
+    </div>
+</div>
+
+<div class="data-table">
+    <h2>📄 Most Visited Pages</h2>
+    <table class="premium-table">
+        <thead>
+            <tr>
+                <th>Page URL</th>
+                <th>Visits</th>
+                <th>Unique Visitors</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for path in top_paths %}
+            <tr>
+                <td><a href="{{ path.path }}">{{ path.path }}</a></td>
+                <td>{{ path.hits }}</td>
+                <td>{{ path.unique }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="text-align: center; color: #9ca3af;">No data available yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="data-table">
+    <h2>🔗 Top Referrers</h2>
+    <table class="premium-table">
+        <thead>
+            <tr>
+                <th>Referrer</th>
+                <th>Visits</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ref in top_referrers %}
+            <tr>
+                <td><a href="{{ ref.url }}" target="_blank">{{ ref.url }}</a></td>
+                <td>{{ ref.count }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2" style="text-align: center; color: #9ca3af;">No referrer data yet</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Traffic Trends Chart
+    const ctx1 = document.getElementById('trafficChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: {{ traffic_labels| safe }},
+        datasets: [{
+            label: 'Visitors',
+            data: {{ traffic_data| safe }},
+        borderColor: '#f59e0b',
+        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: '#f59e0b',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7
+        }]
+    },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(0,0,0,0.05)' },
+                ticks: { font: { weight: '600' } }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { font: { weight: '600' } }
+            }
+        }
+    }
+});
+
+    // Referrers Chart
+    const ctx2 = document.getElementById('referrersChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: {{ referrer_labels| safe }},
+        datasets: [{
+            data: {{ referrer_data| safe }},
+        backgroundColor: [
+            '#f59e0b',
+            '#d97706',
+            '#b45309',
+            '#92400e',
+            '#78350f'
+        ],
+        borderWidth: 0
+        }]
+    },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font: { weight: '600', size: 13 },
+                    padding: 20
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

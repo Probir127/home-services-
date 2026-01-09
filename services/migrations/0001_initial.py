@@ -7,27 +7,53 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Service',
+            name="Service",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('slug', models.SlugField(max_length=255, unique=True)),
-                ('description', models.TextField()),
-                ('category', models.CharField(choices=[('private', 'Privata tjänster'), ('company', 'Företag tjänster')], max_length=20)),
-                ('icon', models.CharField(blank=True, help_text="Font Awesome icon class, e.g. 'fa-broom'", max_length=50)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='services/')),
-                ('order', models.IntegerField(default=0)),
-                ('active', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("slug", models.SlugField(max_length=255, unique=True)),
+                ("description", models.TextField()),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("private", "Privata tjänster"),
+                            ("company", "Företag tjänster"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "icon",
+                    models.CharField(
+                        blank=True,
+                        help_text="Font Awesome icon class, e.g. 'fa-broom'",
+                        max_length=50,
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(blank=True, null=True, upload_to="services/"),
+                ),
+                ("order", models.IntegerField(default=0)),
+                ("active", models.BooleanField(default=True)),
             ],
             options={
-                'verbose_name': 'Service',
-                'verbose_name_plural': 'Services',
-                'ordering': ['order', 'title'],
+                "verbose_name": "Service",
+                "verbose_name_plural": "Services",
+                "ordering": ["order", "title"],
             },
         ),
     ]

@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import SiteConfiguration, HomePage
+
+from .models import HomePage, SiteConfiguration
+
 
 class SingletonModelAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -11,9 +13,11 @@ class SingletonModelAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
 @admin.register(SiteConfiguration)
 class SiteConfigurationAdmin(SingletonModelAdmin):
     pass
+
 
 @admin.register(HomePage)
 class HomePageAdmin(SingletonModelAdmin):

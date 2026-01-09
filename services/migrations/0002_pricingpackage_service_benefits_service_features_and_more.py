@@ -6,50 +6,74 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('services', '0001_initial'),
+        ("services", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PricingPackage',
+            name="PricingPackage",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('price', models.CharField(help_text="e.g. 'fr. 299 kr/tim'", max_length=100)),
-                ('description', models.TextField(blank=True)),
-                ('features', models.JSONField(default=list, help_text='List of features included')),
-                ('is_popular', models.BooleanField(default=False)),
-                ('cta_text', models.CharField(default='Välj paket', max_length=50)),
-                ('cta_link', models.CharField(default='/kontakt', max_length=255)),
-                ('order', models.IntegerField(default=0)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                (
+                    "price",
+                    models.CharField(help_text="e.g. 'fr. 299 kr/tim'", max_length=100),
+                ),
+                ("description", models.TextField(blank=True)),
+                (
+                    "features",
+                    models.JSONField(
+                        default=list, help_text="List of features included"
+                    ),
+                ),
+                ("is_popular", models.BooleanField(default=False)),
+                ("cta_text", models.CharField(default="Välj paket", max_length=50)),
+                ("cta_link", models.CharField(default="/kontakt", max_length=255)),
+                ("order", models.IntegerField(default=0)),
             ],
             options={
-                'ordering': ['order', 'title'],
+                "ordering": ["order", "title"],
             },
         ),
         migrations.AddField(
-            model_name='service',
-            name='benefits',
-            field=models.JSONField(blank=True, default=list, help_text='List of benefits'),
+            model_name="service",
+            name="benefits",
+            field=models.JSONField(
+                blank=True, default=list, help_text="List of benefits"
+            ),
         ),
         migrations.AddField(
-            model_name='service',
-            name='features',
-            field=models.JSONField(blank=True, default=list, help_text='List of features'),
+            model_name="service",
+            name="features",
+            field=models.JSONField(
+                blank=True, default=list, help_text="List of features"
+            ),
         ),
         migrations.AddField(
-            model_name='service',
-            name='short_description',
-            field=models.TextField(blank=True, help_text='Short description for the card view'),
+            model_name="service",
+            name="short_description",
+            field=models.TextField(
+                blank=True, help_text="Short description for the card view"
+            ),
         ),
         migrations.AddField(
-            model_name='service',
-            name='subtitle',
+            model_name="service",
+            name="subtitle",
             field=models.CharField(blank=True, max_length=255),
         ),
         migrations.AlterField(
-            model_name='service',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="service",
+            name="id",
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

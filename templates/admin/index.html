@@ -82,6 +82,11 @@
     <div class="quick-actions">
         <h3>Quick Actions</h3>
         <div class="action-buttons">
+            <a href="/admin/request/request/overview/" class="action-btn"
+                style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);">
+                <span class="btn-icon">📊</span>
+                Advanced Analytics
+            </a>
             <a href="/admin/contact/quoterequest/?status=new" class="action-btn">
                 <span class="btn-icon">📋</span>
                 View New Quotes
@@ -99,9 +104,48 @@
                 <span class="btn-icon">⚙️</span>
                 Site Settings
             </a>
+            <button onclick="clearAnalytics()" class="action-btn danger">
+                <span class="btn-icon">🗑️</span>
+                Clear Analytics
+            </button>
         </div>
     </div>
 </div>
+
+<script>
+    {% load static %}
+    // Get CSRF token
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    // Clear Analytics Function
+    function clearAnalytics() {
+        if (!confirm('⚠️ Are you sure you want to delete ALL visitor analytics data?\n\nThis action CANNOT be undone!')) {
+            return;
+        }
+
+        fetch('/admin/clear/analytics/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ ' + data.message);
+                    window.location.reload();
+                } else {
+                    alert('❌ Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('❌ Network error: ' + error.message);
+            });
+    }
+</script>
 
 <script>
     // Visitor Trends Chart

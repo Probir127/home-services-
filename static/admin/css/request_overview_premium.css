@@ -1,0 +1,140 @@
+/* Premium Styling for django-request Overview Page */
+
+/* Override default django-request styles */
+#request-overview,
+#traffic-graph,
+.module {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 20px !important;
+    padding: 32px !important;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid rgba(245, 158, 11, 0.1) !important;
+    margin-bottom: 24px !important;
+}
+
+/* Traffic Graph Styling */
+#traffic-graph {
+    min-height: 400px !important;
+}
+
+#traffic-graph h2 {
+    color: #1f2937 !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
+    margin-bottom: 20px !important;
+}
+
+/* Tables */
+.module table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 8px !important;
+}
+
+.module thead th {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #ffffff !important;
+    padding: 16px 20px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-size: 13px !important;
+    border: none !important;
+}
+
+.module thead th:first-child {
+    border-radius: 12px 0 0 12px !important;
+}
+
+.module thead th:last-child {
+    border-radius: 0 12px 12px 0 !important;
+}
+
+.module tbody tr {
+    background: linear-gradient(135deg, #fef3e2 0%, #fffbf0 100%) !important;
+    transition: all 0.3s !important;
+}
+
+.module tbody tr:hover {
+    background: linear-gradient(135deg, #fef3e2 0%, #fed7aa 100%) !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15) !important;
+}
+
+.module tbody td {
+    padding: 16px 20px !important;
+    border: none !important;
+    color: #1f2937 !important;
+    font-weight: 500 !important;
+}
+
+.module tbody td:first-child {
+    border-radius: 12px 0 0 12px !important;
+}
+
+.module tbody td:last-child {
+    border-radius: 0 12px 12px 0 !important;
+}
+
+/* Links in tables */
+.module tbody td a {
+    color: #f59e0b !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    transition: all 0.2s !important;
+}
+
+.module tbody td a:hover {
+    color: #d97706 !important;
+    text-decoration: underline !important;
+}
+
+/* Stats boxes */
+.module h2 {
+    color: #1f2937 !important;
+    font-weight: 700 !important;
+    font-size: 20px !important;
+    margin-bottom: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.module h2::before {
+    content: '📊' !important;
+    font-size: 24px !important;
+}
+
+/* Make the page background match dashboard */
+#content {
+    background: linear-gradient(135deg, #fef3e2 0%, #ffffff 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* Tabs styling */
+.tabular {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 16px !important;
+    padding: 8px !important;
+    margin-bottom: 24px !important;
+}
+
+.tabular a {
+    padding: 12px 24px !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: #6b7280 !important;
+    font-weight: 600 !important;
+    transition: all 0.3s !important;
+    border: none !important;
+}
+
+.tabular a:hover,
+.tabular a.active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+}

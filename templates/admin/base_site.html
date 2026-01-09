@@ -20,4 +20,7 @@
         'user_role': '{{ user.is_superuser|yesno:"superuser,staff" }}'
     });
 </script>
+
+<!-- Premium styling for django-request overview -->
+<link rel="stylesheet" href="{% static 'admin/css/request_overview_premium.css' %}">
 {% endblock %}
